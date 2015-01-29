@@ -1,0 +1,24 @@
+5. Model logistické firmy
+
+Logistická firma má 10 poboček v České republice (nebo na Slovensku) a 10 nákladních aut kapacity C zásilek. 
+
+Jedna z poboček má funkci centrálního distribučního skladu. 
+
+Navrhněte reálná města odpovídající pobočkám a zjistěte přepravní vzdálenosti mezi pobočkami. 
+
+Navrhněte proces příchodů zásilek na pobočky (v pracovní době 6:00 až 20:00). 
+
+Každá zásilka musí mít předem určenou cílovou pobočku. 
+
+Navrhněte procesy zpracování zásilky na pobočce (zaměstnanci, třídící stroje) pro procedury přijetí zakázky 
+na příchodu od zákazníka, odeslání na centrální pobočku a přijetí zásilky z centrální pobočky. 
+
+Každá zásilka vždy musí projít přes centrální distribuční sklad. 
+
+Zásilky se přepravují mezi pobočkami pomocí nákladních aut (respektovat kapacitu!). 
+
+Respektujte fakt, že autem lze odvézt náklad z pobočky pouze tehdy, pokud je auto fyzicky přítomno na pobočce. 
+
+Experimentálně zjistěte chování firmy v běžném provozu a zesíleném vánočním provozu. 
+
+Navrhněte případné kapacitní úpravy firmy pro období zesíleného provozu.

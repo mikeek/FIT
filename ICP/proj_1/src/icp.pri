@@ -1,0 +1,1 @@
+QMAKE_CXX=g++

@@ -1,0 +1,1 @@
+mapy pro testování jsou obsaženy ve složce maps

@@ -1,0 +1,85 @@
+/* Styles for Pricing Tables */
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	font-family: 'ABeeZee', sans-serif;	
+	text-align: center;
+    color: #000;
+}
+
+.navigate-header {
+	background: #DBDBDB;
+	min-width: 100%;
+}
+
+a.navigate-header-link {
+	text-decoration: none;
+	color: #000;
+}
+
+.navigate-table-info {
+    padding: 0 0 15px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+}
+
+.navigate-table-enter {
+	font-size: 30px;
+    margin-top: 25px;
+    padding-bottom: 10px;
+}
+
+.navigate-table-enter a {
+    display: inline-block;
+    width:90%;
+    height: 200px;
+    background: #206876;
+    line-height: 200px;
+    
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.navigate-table-enter a:hover {
+    text-decoration: none;
+    background: #015666;
+	color: #fff;
+}
+
+.navigate-table-enter a:active {
+    background: #37B6CE;
+	color: #fff;
+}
+
+.fill {
+	min-height: 100%;
+	background-color: #eee;
+}
+
+.nopadding {
+	margin: 0;
+	padding: 0;
+}
+
+.mainbody {
+	padding-bottom: 24px;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 24px;
+	width: 100%;
+	background: #DBDBDB;
+}
+
+#footer p {
+	font-weight: bold;
+}

@@ -1,0 +1,35 @@
+Jednoduchy TFTP klient implementovan v C++ (11) ramci predmetu ISA.
+
+Seznam souboru:
+Client.cpp
+Client.h
+Communicator.cpp
+Communicator.h
+Makefile
+mytftpclient.cpp
+README
+manual.pdf
+
+Preklad: make
+Spusteni: ./mytftpclient
+
+V projektu je implementovano rozsireni pro multicast option (prepinac -m).
+
+Klient po spusteni nabizi vlastni prikazovou radku, ktera prijima nasledujici prikazy:
+-h  		pro vypsani napovedy
+-R  		nastavi READ mod
+-W  		nastavi WRITE mod
+-d path 	urci cestu k souboru
+-t timeout	 nastavi hodnotu timeout option
+-s size 	nastavi block size
+-a ip[,port] 	urcuje adresu serveru
+-m 		zapne multicast option
+-c mode 	urcuje zpusob prenosu (octet | netascii)
+exit 		ukonci program
+
+Priklad spusteni - prenos souboru "soubor" ze serveru na uvedene adrese a jeho ulozeni do adresare "slozka":
+
+make
+./mytftpclient
+>> -R -d slozka/soubor -a 192.168.0.15
+

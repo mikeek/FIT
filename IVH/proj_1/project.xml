@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project outputprefix="vhdlhodiny">
+
+	<!--  Project description -->
+	<name>IVH - Hodiny, budík</name>
+	<author>Michal Kozubík, Marek Hurta</author>
+	<authoremail>xkozub03@stud.fit.vutbr.cz, xhurta01@stud.fit.vutbr.cz</authoremail>
+	<revision>20130526</revision>
+	<description>Hodiny + budík na VGA výstup</description>
+
+	<!--  MCU part -->
+	<mcu>
+		<file>main.c</file>
+	</mcu>
+
+	<!-- FPGA part -->
+	<fpga architecture="pc">
+		<include>fpga/ctrls/vga/package.xml</include>
+		<include>fpga/ctrls/keyboard/package.xml</include>
+		<file>top.vhd</file>
+	</fpga>
+
+</project>

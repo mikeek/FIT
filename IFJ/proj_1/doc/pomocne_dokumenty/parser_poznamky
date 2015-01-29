@@ -1,0 +1,88 @@
+akce pro jednotlivé tokeny přijaté parserem
+
+TS = tabulka symbolů
+DS = derivační stromu
+
++------+
+| Easy |
++------+
+
+T_START - musí být jako první - nic se neprovede
+
+T_END - konec vstupu - DS se předělá na AST (nebo se to již průbězně provádělo)
+
++---------+
+| Ostatní |
++---------+
+
+T_VARIABLE  - pokud stojí jako R-hodnota: kontrola, jestli byla inicializovaná
+                ~Ne: Chyba
+                ~Ano: OK
+            - pokud stojí jako L-hodnota: kontrola, jestli už se do ní zapisovalo:
+                ~Ne: zapsat její hodnotu a typ do TS
+                ~Ano: zkontrolovat typ její staré a nové hodnoty:
+                    →Souhlasí: přepsat hodnotu v TS
+                    →Nesouhlasí: chyba
+
+T_FUNCTION  - pokud se funkce volá, zkontrolovat, jestli už byla definována:
+                ~Ne: Vytvořit ho (počet proměnných + is_defined=false)
+                    ~Ano: Zkontrolovat, zda souhlasí počet proměnných:
+                        →Ne: Chyba
+                        →Ano: OK
+            - pokud se jedná o definici funkce, zkontrolovat, jestli už se volala (jestli má záznam v TS):
+                ~Ne: Vytvořit ho (počet proměnných + is_defined=true)
+                ~Ano: Zkontrolovat, zda souhlasí počet proměnných:
+                    →Ne: Chyba
+                    →Ano: OK
+            - kontrola, zda nestojí jako L-hodnota, pokud:
+                ~Ne: OK - zkontrolovat typ proměnné nalevo
+                ~Ano: Chyba
+
+T_INTEGER, T_DOUBLE,
+T_STRING, T_BOOLEAN,
+T_NULL      - kontrola, zda nestojí jako L-hodnota, pokud:
+                ~Ne: OK - zkontrolovat typ proměnné nalevo
+                ~Ano: Chyba
+            - Je potřeba hodnotu ukládat do TS? nestačí ji jen vložit do derivačního stromu?
+                ~Snad zjistíme při implementaci - zatím nevidím důvod pro její uložení do TS
+                ~Pokud ano, vytvořit pro ni unikátní identifikátor v TS (např. @<hodnota>)
+
+T_OPERATOR  - kontrola, zda nestojí na konci/začátku výrazu (zda je binární):
+                ~Ne: OK
+                ~Ano: Chyba
+					
+T_SEMICOL   - kontrola, zda stojí na konci příkazu:
+                ~Ne: Chyba
+                ~Ano: OK
+					
+T_COMMA     - kontrola, zda se nachází uvnitř volání/definice funkce:
+                ~Ne: Chyba (doufám - nebo se může objevit i jinde, nepočítaje string?)
+                ~Ano: OK
+					
+T_BRACKET   - B_LEFT_PAR
+                ~kontrola, zda se nachází za jménem funkce, za "if", ve výrazu
+                    →Ne: Chyba
+                    →Ano: OK
+            - B_RIGHT_PAR
+                ~kontrola, zda jí předcházela B_LEFT_PAR:
+                    →Ne: Chyba
+                    →Ano: OK
+            - B_LEFT_BRACE
+                ~kontrola, zda se nachází za hlavičkou funkce:
+                    →Ne: Chyba
+                    ~Ano: OK
+            - B_RIGHT_BRACE
+                ~kontrola, zda jí předcházela B_LEFT_BRACE:
+                    →Ne: Chyba
+                    →Ano: OK
+							
+T_KEYWORD   - KEY_IF | KEY_ELSE | KEY_WHILE | KEY_FUNCTION | KEY_RETURN
+                ~kontrola, zda se nachází na začátku příkazu
+                    →Ne: Chyba
+                    →Ano: OK
+            - KEY_TRUE | KEY_FALSE
+                ~kotrnola, zda se nachází jako L-hodnota
+                    →Ne: OK
+                    →Ano: Chyba
+            - vestavěné funkce
+                ~kontrola dle toho, jestli mají navracet hodnotu

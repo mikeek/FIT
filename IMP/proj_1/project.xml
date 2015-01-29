@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project outputprefix="morse">
+
+    <!--  Project description -->
+    <name>Dekoder morseovy abecedy s vystupem na LCD</name>
+    <author>Michal Kozubik</author>
+    <authoremail>xkozub03@stud.fit.vutbr.cz</authoremail>
+    <revision>20141020</revision>
+	<description>Aplikace umoznuje zadavani znaku v podobe morseovy abecedy pomoci tlacitka na FITkitu a jejich vypsani na LCD displeji. 
+    </description>
+<!-- original -->
+ 
+    <!--  MCU part -->
+    <mcu>
+		<include>mcu/libs/keyboard/package.xml</include>
+		<include>mcu/libs/lcd/package.xml</include>
+        <file>main.c</file>
+    </mcu>
+	
+	   <!-- FPGA part -->
+	   <fpga use="apps/demo/keyboard_lcd/project.xml" />
+    
+</project>
+

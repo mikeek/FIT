@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Hotel</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Michal Kozubík
+	    <a href="mailto:xkozub03@stud.fit.vutbr.cz">xkozub03@stud.fit.vutbr.cz</a> -
+		Admin/User časť html + JQuery, dynamicke skripty, backend komunikacia s DB
+	</dd>
+	<dd>Marek Hurta 
+	    <a href="mailto:xhurta01@stud.fit.vutbr.cz">xhurta01@stud.fit.vutbr.cz</a> - 
+		DB systém, backend pre html formuláre (komunikácia s DB),  Admin/user html
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xkozub03/IIS">http://www.stud.fit.vutbr.cz/~kozub03/IIS</a></dd>>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>xhurta01</td><td>xhurta01</td><td>Zamestnanec</td></tr>
+<tr><td>xkozub03</td><td>xkozub03</td><td>Zamestnanec</td></tr>
+<tr><td>xklient1@gmail.com</td><td>123456</td><td>Klient</td></tr>
+<tr><td>xklient2@gmail.com</td><td>654321</td><td>Klient</td></tr>
+</table>
+
+<h2>Implementace</h2>
+<p>Jednotlive body reprezentuju konkrétne prípady užitia.</p>
+<p>Klient má možnosť:</p>
+<ul>
+	<li>Vytvoriť rezerváciu (resrvation.php,new_reservation.php)</li>
+	<li>Zrušiť rezerváciu (index.php, removeresbyid.php)</li>
+	<li>Editovat rezerváciu (index.php, save_edited_reservation.php)</li>
+	<li>Funkcionalita naviac oproti Use case: Užívateľ má možnosť zobraziť svoje pobyty (history.php, gethistory.php) a k nim využité služby s ich popisom (getservices.php). Ďalej má možnosť si zmeniť niektoré údaje o svojom účte (client.php, save_profile.php) a tak isto celý účet zmazať (removeclient.php)</li>
+</ul>
+
+<p>Zamestnanec má možnosť:</p>
+<ul>
+	<li>Zobraziť prebiehajúce pobyty (visitors.php, getvisitors.php) - zahrňuje aj prípad užitia "Zobraziť absolvované pobyty"</li>
+	<li>Zaplatiť vybraný pobyt (setpayment.php)</li>
+	<li>Zmeniť stav rezervácie (reservations.php, getreservations.php, save_edited_reservation.php), tak isto je možné rezerváciu úplne zrušiť (removeresbyid.php)</li>
+	<li>Funkcionalita naviac oproti Use case: Zamestnanec má možnosť zobraziť všetkých klientov, ktorí využili hotel (clients.php, getclients.php), táto časť umožňuje aj vyhladávanie jednotlivých klientov. Po vybraní konkrétneho klienta sa zobrazia jeho aktuálne rezervácie (getresbyid.php). Ďalej má možnosť zobraziť voľné izby vybraného typu, počas zvoleného časového obdobia (freerooms.php, getfreerooms.php). Ako ďalšie, môže pre prehľad zobrariť všetky izby hotelu (index.php, getrooms.php) a tak isto môže upravovať svoj účet zmenou údajov (save_profile.php) alebo ho úplne zmazať (removeclient.php). </li>
+</ul>
+
+<h2>Instalace</h2>
+<ul>
+<li>Skopírovanie zdrojových súborov na server</li>
+<li>Spustenie inicializačného SQL skriptu</li>
+<li>PHP4, date input pomocou HTML5, avšak pre prehliadače nepodporujúce HTML5 date input pomocou jQuery, Javascript, podpora CSS 3(bootstrap)</li>
+</ul>
+
+<h2>Poznámky</h2>
+<p>Z pohľadu zamestnanca sme sa rozhodli vylúčiť prípad užitia "vytvoriť pobyt", nakoľko počítame, že ubytovanie v našom hoteli je možné len na základe rezervácie vopred. Nieje teda možné vytvoriť pobyt bez predošlej rezervácie priamo na mieste. </p>
+<p>Prípad užitia "prevziať platbu" bol nahradený možnosťou "zaplatiť pobyt", ktorá nám prišla ako logickejšia varianta z pohľadu prehľadnosti v IS.</p>
+<p>Prípad užitia "zobraziť prebiehajúce pobyty" zahrňuje pípady "zobraziť absolvované pobyty" a "zobraziť prebiehajúce pobyty" z Use case diagramu. </p>
+<p>Vzhľadom na Use case diagram, neuvazujeme v našom IS s presou rolou Admina. Administrátorské práva majú automaticky všetci zamestnanci. </p>
+<p>V prípade, že klient sa do hotelu ubytuváva prvý krát, musí sa najskôr zaregistrovať. Ako login pri ďalšom prihlásení zadáva email, zadaný pri registrácií. </p>
+<p>Prípad užitia "priobjednať extra službu" sme neimplementovali, nakoľko by išlo len o kopírovanie už existujúceho kódu, ktorý sa využíva v iných prípadoch užitia.</p>
+</body>
+</html>
