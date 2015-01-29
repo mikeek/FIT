@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>KeyButton.qml</file>
+        <file>Keyboard.qml</file>
+        <file>Display.qml</file>
+        <file>SetupWindow.qml</file>
+        <file>ControlBtn.qml</file>
+        <file>DictionaryPanel.qml</file>
+        <file>DictionaryOverview.qml</file>
+        <file>DropMenu.qml</file>
+        <file>ButtonGrid.qml</file>
+        <file>MenuBtn.qml</file>
+        <file>Tbutton.qml</file>
+        <file>ScomboBox.qml</file>
+        <file>templates.js</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>settings.png</file>
+        <file>remall.png</file>
+        <file>copy.png</file>
+        <file>paste.png</file>
+        <file>t9.png</file>
+        <file>Arrow_down.png</file>
+    </qresource>
+    <qresource prefix="/dicts">
+        <file>dicts/cz.dic</file>
+        <file>dicts/sk.dic</file>
+    </qresource>
+</RCC>
