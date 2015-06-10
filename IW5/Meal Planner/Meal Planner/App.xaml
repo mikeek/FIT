@@ -1,0 +1,37 @@
+﻿<Application x:Class="Meal_Planner.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Meal_Planner.ViewModels.ViewModels;assembly=MealPlanner.ViewModels"
+             xmlns:converters="clr-namespace:Meal_Planner.Converters"
+             xmlns:model="clr-namespace:Meal_Planner.Model;assembly=MealPlanner.Model"
+             StartupUri="Windows/MainWindow.xaml">
+    <Application.Resources>
+        <vm:MainViewModel x:Key="MainViewModel" /> 
+        <vm:MenuViewModel x:Key="MenuViewModel" />
+        <vm:MealsViewModel x:Key="MealsViewModel" />
+        <vm:WeekPlanViewModel x:Key="WeekPlanViewModel" />
+        <vm:ShoppingViewModel x:Key="ShoppingViewModel" />
+        <vm:RecipiesViewModel x:Key="RecipiesViewModel" />
+        <vm:FoodStoreViewModel x:Key="FoodStoreViewModel" />
+        
+        <model:Meal x:Key="Meal" />
+        <model:Recipe x:Key="Recipe" />
+        
+        <converters:DateToStringConverter x:Key="DateToStringConverter" />
+        <converters:RecipeTypeToStringConverter x:Key="RecipeTypeToStringConverter" />
+        <converters:RecipeTypeToImageConverter x:Key="RecipeTypeToImageConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanToOpositeVisibilityConverter x:Key="BooleanToOpositeVisibilityConverter" />
+        <converters:BooleanToVisibilityCollapsedConverter x:Key="BooleanToVisibilityCollapsedConverter" />
+        <converters:BooleanToOpositeVisibilityCollapsedConverter x:Key="BooleanToOpositeVisibilityCollapsedConverter" />
+        <converters:ListboxItemIndexToVisibilityConverter x:Key="ListboxItemIndexToVisibilityConverter" />
+        <converters:BoolToOppositeBoolConverter x:Key="BoolToOppositeBoolConverter" />
+        <converters:WeekOffsetToColorConverter x:Key="WeekOffsetToColorConverter" />
+        <converters:WeekOffsetToFontWeightConverter x:Key="WeekOffsetToFontWeightConverter" />
+        <converters:IngredientAmountToStringConverter x:Key="IngredientAmountToStringConverter" />
+        <converters:IngredientUnitToStringConverter x:Key="IngredientUnitToStringConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+        <converters:GeneralMultiValueConverter x:Key="GeneralMultiValueConverter" />
+    </Application.Resources>
+</Application>

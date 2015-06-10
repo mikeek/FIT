@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meal Planner", "Meal Planner\Meal Planner.csproj", "{3575E264-B31D-4339-B9BE-E14D9C4654F3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81} = {A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}
+		{A38B2EF1-980A-42C7-B811-79F05A99BEBA} = {A38B2EF1-980A-42C7-B811-79F05A99BEBA}
+		{73348DF6-A2D3-433E-8FB3-D6305228D2E2} = {73348DF6-A2D3-433E-8FB3-D6305228D2E2}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealPlanner.Model", "Meal Planner.Model\MealPlanner.Model.csproj", "{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meal Planner.Services", "Meal Planner.Services\Meal Planner.Services.csproj", "{73348DF6-A2D3-433E-8FB3-D6305228D2E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealPlanner.ViewModels", "Meal Planner.ViewModels\MealPlanner.ViewModels.csproj", "{A38B2EF1-980A-42C7-B811-79F05A99BEBA}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://lukas-hutak.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Meal\u0020Planner\\Meal\u0020Planner.csproj
+		SccProjectName1 = Meal\u0020Planner
+		SccLocalPath1 = Meal\u0020Planner
+		SccProjectUniqueName2 = Meal\u0020Planner.Services\\Meal\u0020Planner.Services.csproj
+		SccProjectName2 = Meal\u0020Planner.Services
+		SccLocalPath2 = Meal\u0020Planner.Services
+		SccProjectUniqueName3 = Meal\u0020Planner.ViewModels\\MealPlanner.ViewModels.csproj
+		SccProjectName3 = Meal\u0020Planner.ViewModels
+		SccLocalPath3 = Meal\u0020Planner.ViewModels
+		SccProjectUniqueName4 = Meal\u0020Planner.Model\\MealPlanner.Model.csproj
+		SccProjectName4 = Meal\u0020Planner.Model
+		SccLocalPath4 = Meal\u0020Planner.Model
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3575E264-B31D-4339-B9BE-E14D9C4654F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3575E264-B31D-4339-B9BE-E14D9C4654F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3575E264-B31D-4339-B9BE-E14D9C4654F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3575E264-B31D-4339-B9BE-E14D9C4654F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73348DF6-A2D3-433E-8FB3-D6305228D2E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73348DF6-A2D3-433E-8FB3-D6305228D2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73348DF6-A2D3-433E-8FB3-D6305228D2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73348DF6-A2D3-433E-8FB3-D6305228D2E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A38B2EF1-980A-42C7-B811-79F05A99BEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A38B2EF1-980A-42C7-B811-79F05A99BEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A38B2EF1-980A-42C7-B811-79F05A99BEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A38B2EF1-980A-42C7-B811-79F05A99BEBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Meal_Planner.MealDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DataContext="{StaticResource Meal}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Date: " />
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding MealTime.Day, Converter={StaticResource DateToStringConverter}}" />
+        
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Day part: " />
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding MealTime.DayPart}" />
+
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Minutes: " />
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Recipe.Minutes}" />
+        
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Recipe type: "/>
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Recipe.Type, Converter={StaticResource RecipeTypeToStringConverter}}"/>
+        
+        <ListView Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding Recipe.Ingredients}" HorizontalAlignment="Left" BorderThickness="0">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View >
+                <GridView>
+                    <GridViewColumn  Width="100" Header="Ingredient" DisplayMemberBinding="{Binding Ingredient.Name}" />
+                    <GridViewColumn  Width="80" Header="Amount" DisplayMemberBinding="{Binding ., Converter={StaticResource IngredientAmountToStringConverter}}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Preparation: " />
+        <TextBlock Grid.Column="0" Grid.Row="6"  Grid.ColumnSpan="2" Text="{Binding Recipe.PreparationSteps}" TextWrapping="Wrap"/>
+        
+    </Grid>
+</UserControl>

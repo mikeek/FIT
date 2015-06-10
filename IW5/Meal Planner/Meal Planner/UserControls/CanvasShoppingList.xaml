@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="Meal_Planner.CanvasShoppingList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DataContext="{StaticResource ShoppingViewModel}"
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Shopping list for next 7 days"
+               Background="LightGray"/>
+
+        <ListView x:Name="RequiredAmountListBox"
+                 Grid.Row="1"
+                 Grid.Column="0"
+                 ItemsSource="{Binding RequiredAmounts}"
+                 SelectedIndex="0"
+                 BorderThickness="0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="200"
+                                    Header="Ingredient"
+                                    DisplayMemberBinding="{Binding Ingredient.Name}"/>
+                    <GridViewColumn Width="100"
+                                    Header="Amount">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Amount}" TextAlignment="Right"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Unit"
+                                    Width="100"
+                                    DisplayMemberBinding="{Binding Ingredient.Unit, Converter={StaticResource IngredientUnitToStringConverter}}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <GridSplitter Grid.Row="0"
+                      Grid.RowSpan="2"
+                      Grid.Column="1"
+                      HorizontalAlignment="Stretch"
+                      IsEnabled="False"
+                      Background="LightGray"/>
+
+        <StackPanel Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    DataContext="{Binding ElementName=RequiredAmountListBox, Path=SelectedItem}">
+            <Label>Ingredient name:</Label>
+            <TextBlock Text="{Binding Ingredient.Name}"
+                       FontSize="20"
+                       Margin="20 0 20 10"/>
+            <Separator/>
+            <Label>Newly available amount:</Label>
+            <DockPanel Margin="20 0 20 10"
+                       HorizontalAlignment="Right">
+                <TextBox x:Name="DiffAmountTextBox"
+                         Text="{Binding Amount}" 
+                         HorizontalContentAlignment="Stretch"
+                         TextAlignment="Right"
+                         DockPanel.Dock="Left"
+                         Width="130"/>
+                <TextBlock Text="{Binding Ingredient.Unit, Converter={StaticResource IngredientUnitToStringConverter}}"
+                           DockPanel.Dock="Right"
+                           TextAlignment="Left"
+                           Width="25"
+                           Margin="5 0 0 0"/>
+            </DockPanel>
+
+            <Button Content="✔"
+                    Margin="20 0"
+                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddIngredientAmount}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource GeneralMultiValueConverter}">
+                        <Binding ElementName="RequiredAmountListBox" Path="SelectedItem" />
+                        <Binding ElementName="DiffAmountTextBox" Path="Text"></Binding>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    ZIndex="1"
+                    Background="LightGray"
+                    Visibility="{Binding ElementName=RequiredAmountListBox, Path=SelectedItem, Converter={StaticResource NotNullToVisibilityConverter}}">
+            <Label FontSize="20"
+                   Padding="10 20 0 10">
+                Shopping list.
+            </Label>
+            <TextBlock TextWrapping="WrapWithOverflow"
+                       Padding="10 0 10 0">
+                Please, select a item from the list on left side.
+                <LineBreak/>
+                <LineBreak/>
+                If the list is empty,<LineBreak/> no meal is planned or all required ingredients are already bought.
+            </TextBlock>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

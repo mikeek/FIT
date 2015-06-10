@@ -1,0 +1,224 @@
+﻿
+    
+<UserControl x:Class="Meal_Planner.CanvasMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Meal_Planner"
+             mc:Ignorable="d"
+             d:DataContext="{StaticResource MenuViewModel}"
+             d:DesignHeight="300" d:DesignWidth="700">
+    <UserControl.Resources>
+        <DataTemplate x:Key="CheckBoxListItemTemplate">
+            <CheckBox IsChecked="{Binding Value}" Content="{Binding Name}"
+                      Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MealsViewModel.FilterMealList}"
+                      CommandParameter="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="MealsListITemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                <Button Grid.Column="1" Content="X" ToolTip="Remove meal" Width="20" FontWeight="Bold" Foreground="Brown"
+                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MealsViewModel.RemoveMeal}"
+                        CommandParameter="{Binding}"/>
+            </Grid>
+        </DataTemplate>
+        <Style TargetType="ListBox">
+            <Setter Property="BorderThickness">
+                <Setter.Value>0</Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>White</Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="GridHeaderStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment">
+                <Setter.Value>Center</Setter.Value>
+            </Setter>
+            <Setter Property="VerticalAlignment">
+                <Setter.Value>Center</Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight">
+                <Setter.Value>Bold</Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style TargetType="ItemsControl">
+            <Setter Property="VerticalAlignment">
+                <Setter.Value>Center</Setter.Value>
+            </Setter>
+            <Setter Property="Margin">
+                <Setter.Value>
+                    <Thickness>4,0</Thickness>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment">
+                <Setter.Value>Stretch</Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment">
+                <Setter.Value>Stretch</Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}" VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter Margin="2,2" />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="MainGrid">
+        <TabControl HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch"
+                    TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ContentPresenter Content="{TemplateBinding Content}">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="270" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Padding" Value="3" />
+                </Style>
+            </TabControl.Resources>
+            
+            
+            <TabItem x:Name="MealListTabItem"
+                     DataContext="{Binding MealsViewModel}"
+                     Header="Meal List">
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Days:" VerticalAlignment="Center"/>
+                        <ListBox Grid.Row="1" ItemsSource="{Binding DayOfWeekFilter}"
+                                 ItemTemplate="{StaticResource CheckBoxListItemTemplate}" />
+
+                        <TextBlock Grid.Row="2" Text="Day parts:" VerticalAlignment="Center"/>
+                        <ListBox Grid.Row="3" ItemsSource="{Binding DayPartFilter}" 
+                                    ItemTemplate="{StaticResource CheckBoxListItemTemplate}" />
+
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Meal List:" />
+                        <ListBox Grid.Row="1" x:Name="MealsListBox" ItemsSource="{Binding FilteredMeals}" ItemTemplate="{StaticResource MealsListITemplate}" HorizontalContentAlignment="Stretch"/>
+                    </Grid>
+
+                    <local:MealDetailView Grid.Column="2"
+                        DataContext="{Binding ElementName=MealsListBox, Path=SelectedItem}"
+                                          Visibility="{Binding ElementName=MealsListBox, Path=SelectedIndex, Converter={StaticResource ListboxItemIndexToVisibilityConverter}}"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="WeekPlanTabItem"
+                     Header="Calendar"
+                     DataContext="{Binding WeekPlanViewModel}">
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0. 4. 0. 4">
+                        <Button Width="100" Height="30" Content="&lt;&lt; Previous week" Command="{Binding PreviousWeek}"/>
+                        <Separator Opacity="0" Width="20" />
+                        <TextBlock VerticalAlignment="Center" FontSize="15" Text="Week number: "/>
+                        <TextBlock VerticalAlignment="Center" FontSize="15" Text="{Binding WeekNumber}" Foreground="{Binding WeekOffset, Converter={StaticResource WeekOffsetToColorConverter}}"
+                                   FontWeight="{Binding WeekOffset, Converter={StaticResource WeekOffsetToFontWeightConverter}}"/>
+                        <Separator Opacity="0" Width="20" />
+                        <Button Width="100" Content="Next week &gt;&gt;" Command="{Binding NextWeek}" />
+                    </StackPanel>
+
+                    <Grid Grid.Column="0" Grid.Row="1" ShowGridLines="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource GridHeaderStyle}" Text="Monday" />
+                        <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource GridHeaderStyle}" Text="Tuesday" />
+                        <TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource GridHeaderStyle}" Text="Wednesday" />
+                        <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource GridHeaderStyle}" Text="Thursday" />
+                        <TextBlock Grid.Column="0" Grid.Row="5" Style="{StaticResource GridHeaderStyle}" Text="Friday" />
+                        <TextBlock Grid.Column="0" Grid.Row="6" Style="{StaticResource GridHeaderStyle}" Text="Saturday" />
+                        <TextBlock Grid.Column="0" Grid.Row="7" Style="{StaticResource GridHeaderStyle}" Text="Sunday" />
+
+                        <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource GridHeaderStyle}" Text="Breakfast" />
+                        <TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource GridHeaderStyle}" Text="Lunch" />
+                        <TextBlock Grid.Column="3" Grid.Row="0" Style="{StaticResource GridHeaderStyle}" Text="Dinner" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding WeekMeals[0][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="1" ItemsSource="{Binding WeekMeals[0][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="1" ItemsSource="{Binding WeekMeals[0][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="2" ItemsSource="{Binding WeekMeals[1][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="2" ItemsSource="{Binding WeekMeals[1][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="2" ItemsSource="{Binding WeekMeals[1][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="3" ItemsSource="{Binding WeekMeals[2][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="3" ItemsSource="{Binding WeekMeals[2][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="3" ItemsSource="{Binding WeekMeals[2][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="4" ItemsSource="{Binding WeekMeals[3][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="4" ItemsSource="{Binding WeekMeals[3][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="4" ItemsSource="{Binding WeekMeals[3][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="5" ItemsSource="{Binding WeekMeals[4][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="5" ItemsSource="{Binding WeekMeals[4][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="5" ItemsSource="{Binding WeekMeals[4][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="6" ItemsSource="{Binding WeekMeals[5][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="6" ItemsSource="{Binding WeekMeals[5][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="6" ItemsSource="{Binding WeekMeals[5][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+
+                        <ItemsControl Grid.Column="1" Grid.Row="7" ItemsSource="{Binding WeekMeals[6][0]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="2" Grid.Row="7" ItemsSource="{Binding WeekMeals[6][1]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                        <ItemsControl Grid.Column="3" Grid.Row="7" ItemsSource="{Binding WeekMeals[6][2]}" ItemTemplate="{StaticResource MealsListITemplate}" />
+                    </Grid>
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

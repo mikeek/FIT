@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Meal_Planner.UserControls.PlanningPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:model="clr-namespace:Meal_Planner.Model;assembly=MealPlanner.Model"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600" d:DataContext="{StaticResource RecipiesViewModel}">
+    <UserControl.Resources>
+
+        <ObjectDataProvider x:Key="DayParts"
+                    MethodName="GetValues" 
+                    ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:MealTime+MealDayPart" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+
+    <Grid x:Name="MainGrid">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="225" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Background="Black" Opacity="0.5" Grid.Row="0" />
+            <Grid Background="Black" Opacity="0.5" Grid.Row="2" />
+            <Grid Background="White" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="500" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1" DataContext="{Binding LastPlannedRecipe}">
+                    <Label Content="Plan as Meal" HorizontalAlignment="Left" FontSize="22" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <Button Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"
+                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SavePlanning}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource GeneralMultiValueConverter}">
+                                <Binding Path="."/>
+                                <Binding ElementName="DateElement" Path="SelectedDate"/>
+                                <Binding ElementName="DayPartElement" Path="SelectedItem"/>
+                                <Binding ElementName="SliderCount" Path="Value"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,0,99,10" VerticalAlignment="Bottom" Width="75"
+                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.StornoPlanning}"/>
+                    <Label Content="{Binding Name, Mode=TwoWay, NotifyOnSourceUpdated=True}"
+                           FontSize="14" Margin="87,54,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="35"/>
+                    <DatePicker SelectedDate="{x:Static System:DateTime.Now}" x:Name="DateElement" HorizontalAlignment="Left" Margin="87,90,0,0" VerticalAlignment="Top" Width="102"/>
+                    <Label Content="Meal:" HorizontalAlignment="Left" FontSize="14" Margin="10,53,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Date:" HorizontalAlignment="Left" FontSize="14" Margin="10,87,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Count:" HorizontalAlignment="Left" FontSize="14" Margin="11,121,0,0" VerticalAlignment="Top"/>
+                    <Slider x:Name="SliderCount" HorizontalAlignment="Left" Margin="113,125,0,0" VerticalAlignment="Top" Width="130"
+                             Value="1" Minimum="1" Maximum="50" IsSnapToTickEnabled="True" TickFrequency="1"/>
+                    <Label Content="{Binding ElementName=SliderCount, Path=Value}" HorizontalAlignment="Left" FontSize="14" Margin="87,121,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="DayPartElement" HorizontalAlignment="Right" Margin="0,0,203,112" VerticalAlignment="Bottom" Width="103"
+                          ItemsSource="{Binding Source={StaticResource DayParts}}" SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=.}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

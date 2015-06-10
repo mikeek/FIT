@@ -1,0 +1,160 @@
+﻿<UserControl x:Class="Meal_Planner.CanvasRecipies"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:local="clr-namespace:Meal_Planner.UserControls"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:Meal_Planner.Converters"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             d:DataContext="{StaticResource RecipiesViewModel}"
+             mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="700"
+             xmlns:model="clr-namespace:Meal_Planner.Model;assembly=MealPlanner.Model">
+    <UserControl.Resources>
+        <conv:BoolToOppositeBoolConverter x:Key="oppositeConverter" />
+        <Style TargetType="ListBox">
+            <Setter Property="BorderThickness">
+                <Setter.Value>0</Setter.Value>
+            </Setter>
+        </Style>
+
+        <ObjectDataProvider x:Key="recipeTypes"
+                    MethodName="GetValues" 
+                    ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:RecipeType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+    </UserControl.Resources>
+    <Grid>
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <ListBox x:Name="RecipiesListBox" ItemsSource="{Binding AllRecipies}" Margin="0,0,0,33">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock>
+                                <Image Source="{Binding Path=Type, Converter={StaticResource RecipeTypeToImageConverter}}"
+                                       Width="16" Height="16"/>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Name}" Margin="5,0,0,0" FontSize="16" VerticalAlignment="Top"></TextBlock>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Content="New" Margin="0,0,6,6" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                    Width="80" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddRecipe}"/>
+            <Button Content="Remove" HorizontalAlignment="Left" Margin="10,0,0,6"
+                    Width="80" Height="22" VerticalAlignment="Bottom" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveRecipe}"
+                    CommandParameter="{Binding ElementName=RecipiesListBox, Path=SelectedItem}"
+                    Visibility="{Binding ElementName=RecipiesListBox, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"/>
+        </Grid>
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+        <Grid Grid.Column="2" DataContext="{Binding ElementName=RecipiesListBox, Path=SelectedItem, Mode=TwoWay}"
+                Visibility="{Binding ElementName=RecipiesListBox, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}">
+            <ToggleButton Name="EditButton" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 15 10 0" Padding="20 1"
+                          Visibility="{Binding ElementName=RecipiesListBox, Path=SelectedIndex, Converter={StaticResource ListboxItemIndexToVisibilityConverter}}"
+                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SaveChanges}"
+                          Click="EditButton_Click">
+                Edit
+            </ToggleButton>
+            <local:LabelTextbox HorizontalAlignment="Stretch" Height="35"
+                     Margin="25,10,85,0" TextWrapping="Wrap"
+                     Text="{Binding Name}" VerticalAlignment="Top"
+                     FontSize="20" IsReadOnly="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource oppositeConverter}}"/>
+            <local:LabelTextbox HorizontalAlignment="Stretch"
+                     Margin="25,60,10,215" TextWrapping="Wrap"
+                     Text="{Binding PreparationSteps}"
+                     FontSize="15" IsReadOnly="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource oppositeConverter}}"/>
+            <Grid>
+                <Grid>
+                    <Label Margin="25,0,217,181" Height="33" VerticalAlignment="Bottom" FontWeight="Bold">Ingrediences:</Label>
+                    <ListBox x:Name="IngrediencesListBox"
+                                 Margin="25,0,217,45"
+                                 ItemsSource="{Binding Ingredients}" Height="145" VerticalAlignment="Bottom">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Focusable" Value="False"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="TemplGrid">
+                                    <TextBlock TextWrapping="Wrap" Visibility="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource BooleanToOpositeVisibilityCollapsedConverter}}">
+                                        <Run Text="{Binding ElementName=cbIngr, Path=SelectedItem.Name, Mode=TwoWay}" />
+                                        <Run Text="-" />
+                                        <Run Text="{Binding Path=., Converter={StaticResource IngredientAmountToStringConverter}, Mode=TwoWay}" />
+                                    </TextBlock>
+                                    <TextBlock TextWrapping="Wrap"  Visibility="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                                        <Button Width="20" Content="✖"
+                                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveIngredience}">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource GeneralMultiValueConverter}">
+                                                     <Binding ElementName="RecipiesListBox" Path="SelectedItem"/>
+                                                     <Binding Path="."/>
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                                            Visibility="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.AllIngredients, Mode=TwoWay}"
+                                            SelectedItem="{Binding Ingredient, Mode=TwoWay}" x:Name="cbIngr">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBox Width="60" x:Name="tbIngr" Text="{Binding Amount, Mode=TwoWay}"/>
+                                        <TextBlock Text="{Binding ElementName=cbIngr, Path=SelectedItem.Unit, Converter={StaticResource IngredientUnitToStringConverter}, Mode=TwoWay}"/>
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Content="Add" Margin="25,0,0,23" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                            Width="80" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AddIngredience}"
+                            CommandParameter="{Binding ElementName=RecipiesListBox, Path=SelectedItem}"
+                            Visibility="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    
+                </Grid>
+                <Label Margin="0,0,10,181" Height="33" VerticalAlignment="Bottom" FontWeight="Bold" HorizontalAlignment="Right" Width="170" RenderTransformOrigin="0.5,0.5">Duration:
+                </Label>
+                <local:LabelTextbox Margin="0,0,148,166" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="32
+                                    " RenderTransformOrigin="0.5,0.5"
+                       Text="{Binding Path=Minutes}" IsReadOnly="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource oppositeConverter}}"/>
+                <Label Margin="0,0,10,128" Height="33" VerticalAlignment="Bottom" FontWeight="Bold" HorizontalAlignment="Right" Width="170" RenderTransformOrigin="0.5,0.5" Content="Rating:"/>
+                <local:FiveStarWidget Margin="0,0,60,113" Width="120" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                             IsEnabled="{Binding ElementName=EditButton, Path=IsChecked}" Value="{Binding Path=Rating, Mode=TwoWay}"/>
+                <Label Margin="0,0,10,75" Height="33" VerticalAlignment="Bottom" FontWeight="Bold" HorizontalAlignment="Right" Width="170" RenderTransformOrigin="0.5,0.5" Content="Type:"/>
+                <Label Content="[min]" HorizontalAlignment="Right" Margin="0,0,112,165" VerticalAlignment="Bottom" Height="27"/>
+                <Label Margin="0,0,10,59" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="170" RenderTransformOrigin="0.5,0.5"
+                	Content="{Binding ElementName=cbType, Path=SelectedItem, Mode=TwoWay, Converter={StaticResource RecipeTypeToStringConverter}}" Visibility="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource BooleanToOpositeVisibilityConverter}}"/>
+                <ComboBox x:Name="cbType" HorizontalAlignment="Right" Margin="0,0,60,61" VerticalAlignment="Bottom" Width="120"
+                          Visibility="{Binding ElementName=EditButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          ItemsSource="{Binding Source={StaticResource recipeTypes}}"
+                          SelectedItem="{Binding Type, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=. , Converter={StaticResource RecipeTypeToStringConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Content="Plan as Meal" HorizontalAlignment="Right" Margin="0,0,60,23" VerticalAlignment="Bottom" Width="120" Height="28"
+                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.PlanRecipe}"
+                        CommandParameter="{Binding ElementName=RecipiesListBox, Path=SelectedItem}"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+        <local:PlanningPanel DataContext="{Binding ElementName=MainGrid, Path=DataContext}"
+                    Visibility="{Binding IsPlanning, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" x:Name="PlanningPanel">
+            
+        </local:PlanningPanel>
+    </Grid>
+</UserControl>

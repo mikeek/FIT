@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A38B2EF1-980A-42C7-B811-79F05A99BEBA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Meal_Planner.ViewModels</RootNamespace>
+    <AssemblyName>MealPlanner.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\Collection\AddCommand.cs" />
+    <Compile Include="Commands\Collection\DiscartItemCommand.cs" />
+    <Compile Include="Commands\Collection\RemoveCommand.cs" />
+    <Compile Include="Commands\Collection\SaveChangesCommand.cs" />
+    <Compile Include="Commands\Collection\SaveItemCommand.cs" />
+    <Compile Include="Commands\FoodStore\AddNewIngredientCommand.cs" />
+    <Compile Include="Commands\Meals\FilterMeals.cs" />
+    <Compile Include="Commands\Recipe\AddIngredience.cs" />
+    <Compile Include="Commands\Recipe\AddRecipe.cs" />
+    <Compile Include="Commands\Recipe\PlanRecipe.cs" />
+    <Compile Include="Commands\Recipe\RemoveIngredience.cs" />
+    <Compile Include="Commands\Recipe\RemoveRecipe.cs" />
+    <Compile Include="Commands\Recipe\SavePlanning.cs" />
+    <Compile Include="Commands\Recipe\StornoPlanning.cs" />
+    <Compile Include="Commands\ShoppingList\AddIngredientAmount.cs" />
+    <Compile Include="Commands\WeekPlan\NextWeekCommand.cs" />
+    <Compile Include="Commands\WeekPlan\PreviousWeekCommand.cs" />
+    <Compile Include="Framework\Commands\CommandBase.cs" />
+    <Compile Include="Framework\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Framework\ViewModels\ViewModelCollection.cs" />
+    <Compile Include="Framework\ViewModels\ViewModelDetail.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\FoodStoreViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MealsViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\RecipiesViewModel.cs" />
+    <Compile Include="ViewModels\ShoppingViewModel.cs" />
+    <Compile Include="ViewModels\WeekPlanViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\IngredientAmount\" />
+    <Folder Include="Commands\Ingredient\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Meal Planner.Model\MealPlanner.Model.csproj">
+      <Project>{A3F7FF0E-55B3-4677-BFCE-EBC079B93C81}</Project>
+      <Name>MealPlanner.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Meal Planner.Services\Meal Planner.Services.csproj">
+      <Project>{73348DF6-A2D3-433E-8FB3-D6305228D2E2}</Project>
+      <Name>Meal Planner.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
